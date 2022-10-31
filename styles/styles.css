@@ -1,0 +1,14 @@
+div.chessBoard {
+    width: 800px;
+    height: 800px;
+    border: 5px solid #000;
+    margin: auto;
+    line-height: 0px;
+}
+
+div.chessSquare {
+    background-color: #000;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+}
