@@ -41,29 +41,9 @@ function determineChessPieceById(whitePieces, blackPieces){
     })
 }
 
-// This function renders all 64 squares onto the chess board and may handle appending pieces to a particular square based off of it's index
+const chessSquareArray = []; // Global because it's needed in many places
 
-const chessSquareArray = [];
-
-function createPieces(chessSquareArray){
-    let pieces = 0
-    const whitePieces = []
-    const blackPieces = []
-    while (pieces < 16){
-        const whitePiece = document.createElement("div")
-        whitePiece.classList.add("whitePiece")
-        whitePieces.push(whitePiece)
-        const blackPiece = document.createElement("div")
-        blackPiece.classList.add("blackPiece")
-        blackPieces.push(blackPiece)
-        pieces += 1
-    }
-    determineChessPieceById(whitePieces, blackPieces)
-    console.log(blackPieces, whitePieces)
-    
-}
-
-createPieces(chessSquareArray)
+// This function renders all 64 squares onto the chess board
 
 function renderSquares(){
     let numOfSquares = 0;
@@ -87,4 +67,38 @@ function renderSquares(){
 
 renderSquares()
 
-// Create an array of pieces. The first 16 elements are black, the next 16 elements are white
+// This function creates the pieces and may handle appending those pieces to specific tiles on the board to create the starting positions
+
+function createPieces(chessSquareArray){
+    let pieces = 0
+    const whitePieces = []
+    const blackPieces = []
+    while (pieces < 16){
+        const whitePiece = document.createElement("div")
+        whitePiece.classList.add("whitePiece")
+        whitePieces.push(whitePiece)
+        const blackPiece = document.createElement("div")
+        blackPiece.classList.add("blackPiece")
+        blackPieces.push(blackPiece)
+        pieces += 1
+    }
+    determineChessPieceById(whitePieces, blackPieces)
+    renderWhitePieces(whitePieces, chessSquareArray)
+    renderBlackPieces(blackPieces, chessSquareArray)
+}
+
+createPieces(chessSquareArray)
+
+// These functions render the created pieces onto the board
+
+function renderWhitePieces(whitePieces, chessSquareArray){
+    chessSquareArray.slice(48).map((square, i) => square.append(whitePieces[i]))
+}
+
+function renderBlackPieces(blackPieces, chessSquareArray){
+    chessSquareArray.slice(0, 16).map((square, i) => square.append(blackPieces[i]))
+}
+
+function stylePieces(){
+    return "style pieces here"
+}
