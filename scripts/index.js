@@ -43,11 +43,23 @@ function determineChessPieceById(whitePieces, blackPieces){
 
 const chessSquareArray = []; // Global because it's needed in many places
 
+// This function will rotate the board when called by the user on button click
+
+function rotateBoard(chessBoard) {
+    const rotate = document.getElementById("rotate")
+    rotate.addEventListener("click", function(){
+        for (let i = 1; i < 64; i++){
+            chessBoard.insertBefore(chessBoard.childNodes[i], chessBoard.firstChild);
+        }
+    })
+}
+
 // This function renders all 64 squares onto the chess board
 
 function renderSquares(){
     let numOfSquares = 0;
     const chessBoard = document.querySelector(".chessBoard")
+    rotateBoard(chessBoard)
     while (numOfSquares < 64){
         const chessSquare = document.createElement("div")
         chessSquare.classList.add("chessSquare")
@@ -76,15 +88,19 @@ function createPieces(chessSquareArray){
     while (pieces < 16){
         const whitePiece = document.createElement("div")
         whitePiece.classList.add("whitePiece")
+        whitePiece.setAttribute("draggable", "true") // depending on whose turn it is, set this to true or false
         whitePieces.push(whitePiece)
         const blackPiece = document.createElement("div")
         blackPiece.classList.add("blackPiece")
+        blackPiece.setAttribute("draggable", "true") // depending on whose turn it is, set this to true or false
         blackPieces.push(blackPiece)
         pieces += 1
     }
     determineChessPieceById(whitePieces, blackPieces)
-    renderWhitePieces(whitePieces, chessSquareArray)
-    renderBlackPieces(blackPieces, chessSquareArray)
+    renderPieces(whitePieces, blackPieces, chessSquareArray)
+    resetPieces(whitePieces, blackPieces, chessSquareArray)
+    moveWhitePieces(whitePieces, chessSquareArray)
+    moveBlackPieces(blackPieces, chessSquareArray)
     console.log(whitePieces, blackPieces)
 }
 
@@ -92,9 +108,17 @@ createPieces(chessSquareArray)
 
 // These functions render the created pieces onto the board
 
-function renderWhitePieces(whitePieces, chessSquareArray){
-    const button = document.querySelector("button")
-    button.addEventListener("click", function(){
+// NOTE: Set timeout functions create a staggered effect
+
+function renderPieces(whitePieces, blackPieces, chessSquareArray){
+    const begin = document.getElementById("begin")
+    const reset = document.getElementById("reset")
+    begin.addEventListener("click", function(){
+        chessSquareArray.slice(0, 16).map((square, i) => {
+            setTimeout(function(){
+                square.append(blackPieces[i])
+            }, 50 * i)
+        })
         setTimeout(function(){
             chessSquareArray.slice(48).map((square, i) => {
                 setTimeout(function(){
@@ -102,24 +126,98 @@ function renderWhitePieces(whitePieces, chessSquareArray){
                 }, 50 * i)
             })
         }, 800)
+        reset.disabled = false
     })
 }
 
-function renderBlackPieces(blackPieces, chessSquareArray){
-    const button = document.querySelector("button")
-    button.addEventListener("click", function(){
-        chessSquareArray.slice(0, 16).map((square, i) => {
+// This function will remove all the pieces on the board in order, and then re-append them back into their starting positions
+
+function resetPieces(whitePieces, blackPieces, chessSquareArray){
+    const reset = document.getElementById("reset")
+    reset.addEventListener("click", function(){
+        blackPieces.map((piece, i) => {
             setTimeout(function(){
-                square.append(blackPieces[i])
-            }, 50 * i)
+                piece.remove()
+            },50 * i)
+        })
+        setTimeout(function(){
+            whitePieces.map((piece, i) => {
+                setTimeout(function(){
+                    piece.remove()
+                },50 * i)
+            })
+        }, 800)
+        setTimeout(function(){
+            chessSquareArray.slice(0, 16).map((square, i) => {
+                setTimeout(function(){
+                    square.append(blackPieces[i])
+                }, 50 * i)
+            })
+            setTimeout(function(){
+                chessSquareArray.slice(48).map((square, i) => {
+                    setTimeout(function(){
+                        square.append(whitePieces[i])
+                    }, 50 * i)
+                })
+            }, 800)
+        }, 1600)
+    })
+}
+
+// These two functions handle dragging and dropping the selected piece
+
+let pieceBeingMoved;
+
+function moveWhitePieces(whitePieces, chessSquareArray){
+    whitePieces.map((piece) => {
+        piece.addEventListener("dragstart", function(){
+            pieceBeingMoved = piece
+        })
+        piece.addEventListener("dragend", function(){
+            console.log("dragend")
+        })
+    })
+    chessSquareArray.forEach((square) => {
+        square.addEventListener("dragover", function(e){
+            e.preventDefault()
+        })
+        square.addEventListener("dragenter", function(e){
+            e.preventDefault()
+            square.className += " hovered"
+        })
+        square.addEventListener("dragleave", function(){
+            square.className = "chessSquare"
+        })
+        square.addEventListener("drop", function(e){
+            square.append(pieceBeingMoved)
+            square.className = "chessSquare"
         })
     })
 }
 
-// function stylePieces(whitePieces, blackPieces){
-//     whitePieces.map((piece) => {
-//         switch (true){
-//             case piece.id === "rook9" : return piece.innerText = "test"
-//         }
-//     })
-// }
+function moveBlackPieces(blackPieces, chessSquareArray){
+    blackPieces.map((piece) => {
+        piece.addEventListener("dragstart", function(){
+            pieceBeingMoved = piece
+        })
+        piece.addEventListener("dragend", function(){
+            console.log("dropped")
+        })
+    })
+    chessSquareArray.forEach((square) => {
+        square.addEventListener("dragover", function(e){
+            e.preventDefault()
+        })
+        square.addEventListener("dragenter", function(e){
+            e.preventDefault()
+            square.className += " hovered"
+        })
+        square.addEventListener("dragleave", function(){
+            square.className = "chessSquare"
+        })
+        square.addEventListener("drop", function(e){
+            square.append(pieceBeingMoved)
+            square.className = "chessSquare"
+        })
+    })
+}
