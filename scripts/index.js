@@ -2,10 +2,10 @@
 
 function determineSquareColor(element, i){
     if ((i >= 0 && i <= 7) || (i >= 16 && i <= 23) || (i >= 32 && i <= 39) || (i >= 48 && i <= 55)){
-        return i % 2 === 0 ? element.style.backgroundColor = "#FFF" : element.style.backgroundColor = "#000";
+        return i % 2 === 0 ? element.style.backgroundColor = "#FFF" : element.style.backgroundColor = "#606060";
     }
     if ((i >= 8 && i <= 15) || (i >= 24 && i <= 31) || (i >= 40 && i <= 47) || (i >= 56 && i <= 63)){
-        return i % 2 !== 0 ? element.style.backgroundColor = "#FFF" : element.style.backgroundColor = "#000";
+        return i % 2 !== 0 ? element.style.backgroundColor = "#FFF" : element.style.backgroundColor = "#606060";
     }
 }
 
@@ -15,28 +15,28 @@ function determineSquareColor(element, i){
 function determineChessPieceById(whitePieces, blackPieces){
     whitePieces.map((element, i) => {
         switch(true){
-            case i < 7 : return element.setAttribute("id", "pawn")
-            case i === 8 : return element.setAttribute("id", "rook")
-            case i === 9 : return element.setAttribute("id", "knight")
-            case i === 10 : return element.setAttribute("id", "bishop")
-            case i === 11 : return element.setAttribute("id", "queen")
-            case i === 12 : return element.setAttribute("id", "king")
-            case i === 13 : return element.setAttribute("id", "bishop")
-            case i === 14 : return element.setAttribute("id", "knight")
-            case i === 15 : return element.setAttribute("id", "rook")
+            case i < 8 : return element.setAttribute("id", "pawn" + (i + 1))
+            case i === 8 : return element.setAttribute("id", "rook" + (i + 1))
+            case i === 9 : return element.setAttribute("id", "knight" + (i + 1))
+            case i === 10 : return element.setAttribute("id", "bishop" + (i + 1))
+            case i === 11 : return element.setAttribute("id", "queenWhite")
+            case i === 12 : return element.setAttribute("id", "kingWhite")
+            case i === 13 : return element.setAttribute("id", "bishop" + (i + 1))
+            case i === 14 : return element.setAttribute("id", "knight" + (i + 1))
+            case i === 15 : return element.setAttribute("id", "rook" + (i + 1))
         }
     })
     blackPieces.map((element, i) => {
         switch(true){
-            case i === 0 : return element.setAttribute("id", "rook")
-            case i === 1 : return element.setAttribute("id", "knight")
-            case i === 2 : return element.setAttribute("id", "bishop")
-            case i === 3 : return element.setAttribute("id", "queen")
-            case i === 4 : return element.setAttribute("id", "king")
-            case i === 5 : return element.setAttribute("id", "bishop")
-            case i === 6 : return element.setAttribute("id", "knight")
-            case i === 7 : return element.setAttribute("id", "rook")
-            case i > 7 : return element.setAttribute("id", "pawn")
+            case i === 0 : return element.setAttribute("id", "rook" + (i + 1))
+            case i === 1 : return element.setAttribute("id", "knight" + (i + 1))
+            case i === 2 : return element.setAttribute("id", "bishop" + (i + 1))
+            case i === 3 : return element.setAttribute("id", "queenBlack")
+            case i === 4 : return element.setAttribute("id", "kingBlack")
+            case i === 5 : return element.setAttribute("id", "bishop" + (i + 1))
+            case i === 6 : return element.setAttribute("id", "knight" + (i + 1))
+            case i === 7 : return element.setAttribute("id", "rook" + (i + 1))
+            case i > 7 : return element.setAttribute("id", "pawn" + (i + 1))
         }
     })
 }
@@ -85,6 +85,7 @@ function createPieces(chessSquareArray){
     determineChessPieceById(whitePieces, blackPieces)
     renderWhitePieces(whitePieces, chessSquareArray)
     renderBlackPieces(blackPieces, chessSquareArray)
+    console.log(whitePieces, blackPieces)
 }
 
 createPieces(chessSquareArray)
@@ -92,13 +93,33 @@ createPieces(chessSquareArray)
 // These functions render the created pieces onto the board
 
 function renderWhitePieces(whitePieces, chessSquareArray){
-    chessSquareArray.slice(48).map((square, i) => square.append(whitePieces[i]))
+    const button = document.querySelector("button")
+    button.addEventListener("click", function(){
+        setTimeout(function(){
+            chessSquareArray.slice(48).map((square, i) => {
+                setTimeout(function(){
+                    square.append(whitePieces[i])
+                }, 50 * i)
+            })
+        }, 800)
+    })
 }
 
 function renderBlackPieces(blackPieces, chessSquareArray){
-    chessSquareArray.slice(0, 16).map((square, i) => square.append(blackPieces[i]))
+    const button = document.querySelector("button")
+    button.addEventListener("click", function(){
+        chessSquareArray.slice(0, 16).map((square, i) => {
+            setTimeout(function(){
+                square.append(blackPieces[i])
+            }, 50 * i)
+        })
+    })
 }
 
-function stylePieces(){
-    return "style pieces here"
-}
+// function stylePieces(whitePieces, blackPieces){
+//     whitePieces.map((piece) => {
+//         switch (true){
+//             case piece.id === "rook9" : return piece.innerText = "test"
+//         }
+//     })
+// }

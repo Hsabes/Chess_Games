@@ -3,6 +3,7 @@ div.chessBoard {
     height: 800px;
     border: 5px solid #000;
     margin: auto;
+    margin-top: 2%;
     line-height: 0px;
 }
 
@@ -24,8 +25,6 @@ div.whitePiece{
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    background-color: #FFF;
-    border: 1px solid #000;
 }
 
 div.blackPiece{
@@ -36,6 +35,56 @@ div.blackPiece{
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    background-color: #000;
-    border: 1px solid #FFF;
+}
+
+/* White Pieces */
+
+#pawn1, #pawn2, #pawn3, #pawn4, #pawn5, #pawn6, #pawn7, #pawn8{
+    background: url(../pictures/whitePieces/whitePawn.png);
+}
+
+#rook9, #rook16{
+	background: url(../pictures/whitePieces/whiteRook.png);
+}
+
+#bishop11, #bishop14{
+    background: url(../pictures/whitePieces/whiteBishop.png);
+}
+
+#knight10, #knight15{
+    background: url(../pictures/whitePieces/whiteKnight.png);
+}
+
+#kingWhite{
+    background: url(../pictures/whitePieces/whiteKing.png);
+}
+
+#queenWhite{
+    background: url(../pictures/whitePieces/whiteQueen.png);
+}
+
+/* Black Pieces */
+
+#pawn9, #pawn10, #pawn11, #pawn12, #pawn13, #pawn14, #pawn15, #pawn16{
+    background: url(../pictures/blackPieces/blackPawn.png);
+}
+
+#rook1, #rook8{
+    background: url(../pictures/blackPieces/blackRook.png);
+}
+
+#knight2, #knight7{
+    background: url(../pictures/blackPieces/blackKnight.png);
+}
+
+#bishop3, #bishop6{
+    background: url(../pictures/blackPieces/blackBishop.png);
+}
+
+#kingBlack{
+    background: url(../pictures/blackPieces/blackKing.png);
+}
+
+#queenBlack{
+    background: url(../pictures/blackPieces/blackQueen.png);
 }
