@@ -172,9 +172,10 @@ function moveWhitePieces(whitePieces, chessSquareArray){
     whitePieces.map((piece) => {
         piece.addEventListener("dragstart", function(){
             pieceBeingMoved = piece
+            piece.style.cursor = "grabbing"
         })
         piece.addEventListener("dragend", function(){
-            console.log("dragend")
+            console.log("dropped")
         })
     })
     chessSquareArray.forEach((square) => {
@@ -191,6 +192,7 @@ function moveWhitePieces(whitePieces, chessSquareArray){
         square.addEventListener("drop", function(e){
             square.append(pieceBeingMoved)
             square.className = "chessSquare"
+            pieceBeingMoved.style.cursor = "grab"
         })
     })
 }
@@ -199,6 +201,7 @@ function moveBlackPieces(blackPieces, chessSquareArray){
     blackPieces.map((piece) => {
         piece.addEventListener("dragstart", function(){
             pieceBeingMoved = piece
+            piece.style.cursor = "grabbing"
         })
         piece.addEventListener("dragend", function(){
             console.log("dropped")
@@ -216,8 +219,10 @@ function moveBlackPieces(blackPieces, chessSquareArray){
             square.className = "chessSquare"
         })
         square.addEventListener("drop", function(){
+            square.removeChild(square.children[0])
             square.append(pieceBeingMoved)
             square.className = "chessSquare"
+            pieceBeingMoved.style.cursor = "grab"
         })
     })
 }
