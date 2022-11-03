@@ -11,7 +11,6 @@ function determineSquareColor(element, i){
 
 function renderSquareIdentifiers(){
     const letterContainer = document.querySelector(".columns")
-    const numberContainer = document.querySelector(".rows")
     const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     let i = 0;
     while (i < 8){
@@ -19,10 +18,6 @@ function renderSquareIdentifiers(){
         columnLetter.classList.add("letters")
         columnLetter.textContent = letters[i]
         letterContainer.append(columnLetter)
-        // const rowNumber = document.createElement("div")
-        // rowNumber.classList.add("numbers")
-        // numberContainer.append(rowNumber)
-        // rowNumber.textContent = (i + 1).toString()
         i += 1
     }
 }
