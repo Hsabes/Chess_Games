@@ -1,6 +1,7 @@
 .boardAndRows{
     display: flex;
     width: 750px;
+    height: 638px;
     margin: auto;
 }
 
@@ -24,6 +25,7 @@ div.chessBoardMain {
     margin: auto;
     margin-top: 2%;
     line-height: 0px;
+    box-shadow: 5px 7px 7px rgba(0, 0, 0, 0.55);
 }
 
 .columns{
