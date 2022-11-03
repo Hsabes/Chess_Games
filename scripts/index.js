@@ -9,6 +9,26 @@ function determineSquareColor(element, i){
     }
 }
 
+function renderSquareIdentifiers(){
+    const letterContainer = document.querySelector(".columns")
+    const numberContainer = document.querySelector(".rows")
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    let i = 0;
+    while (i < 8){
+        const columnLetter = document.createElement("div")
+        columnLetter.classList.add("letters")
+        columnLetter.textContent = letters[i]
+        letterContainer.append(columnLetter)
+        // const rowNumber = document.createElement("div")
+        // rowNumber.classList.add("numbers")
+        // numberContainer.append(rowNumber)
+        // rowNumber.textContent = (i + 1).toString()
+        i += 1
+    }
+}
+
+renderSquareIdentifiers()
+
 // This function accepts an array of pieces, and according to their position in the array, assign them an ID for its corrospinding piece on the board.
 // EX: The first element of blackPieces will be ID of "rook", since the top left corner of the board will be a black rook, and vice versa for the bottom right piece
 
@@ -45,11 +65,11 @@ const chessSquareArray = []; // Global because it's needed in many places
 
 // This function will rotate the board when called by the user on button click
 
-function rotateBoard(chessBoard) {
+function rotateBoard(chessBoardMain) {
     const rotate = document.getElementById("rotate")
     rotate.addEventListener("click", function(){
         for (let i = 1; i < 64; i++){
-            chessBoard.insertBefore(chessBoard.childNodes[i], chessBoard.firstChild);
+            chessBoardMain.insertBefore(chessBoardMain.childNodes[i], chessBoardMain.firstChild);
         }
     })
 }
@@ -58,8 +78,8 @@ function rotateBoard(chessBoard) {
 
 function renderSquares(){
     let numOfSquares = 0;
-    const chessBoard = document.querySelector(".chessBoard")
-    rotateBoard(chessBoard)
+    const chessBoardMain = document.querySelector(".chessBoardMain")
+    rotateBoard(chessBoardMain)
     while (numOfSquares < 64){
         const chessSquare = document.createElement("div")
         chessSquare.classList.add("chessSquare")
@@ -73,7 +93,7 @@ function renderSquares(){
         })
     })
     return chessSquareArray.forEach((element) => {
-        return chessBoard.append(element)
+        return chessBoardMain.append(element)
     })
 }
 
@@ -127,6 +147,7 @@ function renderPieces(whitePieces, blackPieces, chessSquareArray){
             })
         }, 800)
         reset.disabled = false
+        begin.disabled = true
     })
 }
 
@@ -175,7 +196,6 @@ function moveWhitePieces(whitePieces, chessSquareArray){
             piece.style.cursor = "grabbing"
         })
         piece.addEventListener("dragend", function(){
-            console.log("dropped")
         })
     })
     chessSquareArray.forEach((square) => {
@@ -194,6 +214,8 @@ function moveWhitePieces(whitePieces, chessSquareArray){
                 square.removeChild(square.children[0])
             }
             square.append(pieceBeingMoved)
+            square.className = "chessSquare"
+            pieceBeingMoved.style.cursor = "grab"
         })
     })
 }
@@ -205,10 +227,9 @@ function moveBlackPieces(blackPieces, chessSquareArray){
             piece.style.cursor = "grabbing"
         })
         piece.addEventListener("dragend", function(){
-            console.log("dropped")
         })
     })
-    chessSquareArray.forEach((square) => {
+    chessSquareArray.forEach((square, i) => {
         square.addEventListener("dragover", function(e){
             e.preventDefault()
         })
@@ -224,6 +245,8 @@ function moveBlackPieces(blackPieces, chessSquareArray){
                 square.removeChild(square.children[0])
             }
             square.append(pieceBeingMoved)
+            square.className = "chessSquare"
+            pieceBeingMoved.style.cursor = "grab"
         })
     })
 }
