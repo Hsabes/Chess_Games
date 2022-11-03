@@ -13,6 +13,10 @@ div.chessSquare {
     display: inline-block;
 }
 
+.hovered{
+    box-shadow: inset 0 0 20px #f8a100;
+}
+
 div.chessSquare:hover{
     box-shadow: inset 0 0 20px #f8a100;
 }
@@ -87,4 +91,8 @@ div.blackPiece{
 
 #queenBlack{
     background: url(../pictures/blackPieces/blackQueen.png);
+}
+
+.hold{
+    background: url(../pictures/whitePieces/whiteRook.png);
 }
