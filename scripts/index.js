@@ -190,10 +190,10 @@ function moveWhitePieces(whitePieces, chessSquareArray){
             square.className = "chessSquare"
         })
         square.addEventListener("drop", function(){
-            square.removeChild(square.children[0])
+            if (square.children[0]){
+                square.removeChild(square.children[0])
+            }
             square.append(pieceBeingMoved)
-            square.className = "chessSquare"
-            pieceBeingMoved.style.cursor = "grab"
         })
     })
 }
@@ -220,10 +220,10 @@ function moveBlackPieces(blackPieces, chessSquareArray){
             square.className = "chessSquare"
         })
         square.addEventListener("drop", function(){
-            square.removeChild(square.children[0])
+            if (square.children[0]){
+                square.removeChild(square.children[0])
+            }
             square.append(pieceBeingMoved)
-            square.className = "chessSquare"
-            pieceBeingMoved.style.cursor = "grab"
         })
     })
 }
