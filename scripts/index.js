@@ -215,7 +215,7 @@ function moveBlackPieces(blackPieces, chessSquareArray){
         square.addEventListener("dragleave", function(){
             square.className = "chessSquare"
         })
-        square.addEventListener("drop", function(e){
+        square.addEventListener("drop", function(){
             square.append(pieceBeingMoved)
             square.className = "chessSquare"
         })
