@@ -125,17 +125,21 @@ createPieces(chessSquareArray)
 
 // NOTE: Set timeout functions create a staggered effect
 
+function beginGame(){
+
+}
+
 function renderPieces(whitePieces, blackPieces, chessSquareArray){
     const begin = document.getElementById("begin")
     const reset = document.getElementById("reset")
     begin.addEventListener("click", function(){
-        chessSquareArray.slice(0, 16).map((square, i) => {
+        chessSquareArray.slice(0, 16).forEach((square, i) => {
             setTimeout(function(){
                 square.append(blackPieces[i])
             }, 50 * i)
         })
         setTimeout(function(){
-            chessSquareArray.slice(48).map((square, i) => {
+            chessSquareArray.slice(48).forEach((square, i) => {
                 setTimeout(function(){
                     square.append(whitePieces[i])
                 }, 50 * i)
@@ -150,39 +154,30 @@ function renderPieces(whitePieces, blackPieces, chessSquareArray){
 
 function resetPieces(whitePieces, blackPieces, chessSquareArray){
     const reset = document.getElementById("reset")
+    const begin = document.getElementById("begin")
     reset.addEventListener("click", function(){
-        blackPieces.map((piece, i) => {
+        begin.disabled = false
+        blackPieces.forEach((piece, i) => {
             setTimeout(function(){
                 piece.remove()
             },50 * i)
         })
         setTimeout(function(){
-            whitePieces.map((piece, i) => {
+            whitePieces.forEach((piece, i) => {
                 setTimeout(function(){
                     piece.remove()
                 },50 * i)
             })
         }, 800)
         setTimeout(function(){
-            chessSquareArray.slice(0, 16).map((square, i) => {
-                setTimeout(function(){
-                    square.append(blackPieces[i])
-                }, 50 * i)
-            })
-            setTimeout(function(){
-                chessSquareArray.slice(48).map((square, i) => {
-                    setTimeout(function(){
-                        square.append(whitePieces[i])
-                    }, 50 * i)
-                })
-            }, 800)
+            begin.click()
         }, 1600)
     })
 }
 
 // These two functions handle dragging and dropping the selected piece
 
-let pieceBeingMoved;
+let pieceBeingMoved; // Global to be accessed by both colored pieces
 
 function moveWhitePieces(whitePieces, chessSquareArray){
     whitePieces.map((piece) => {
@@ -200,17 +195,24 @@ function moveWhitePieces(whitePieces, chessSquareArray){
         square.addEventListener("dragenter", function(e){
             e.preventDefault()
             square.className += " hovered"
+            // square.children[0].classList.value === "whitePiece" ? e.dataTransfer.setData("text/plain", "none") : e.dataTransfer.effectAllowed = ("text/plain", "all")
         })
         square.addEventListener("dragleave", function(){
             square.className = "chessSquare"
         })
-        square.addEventListener("drop", function(){
-            if (square.children[0]){
+        square.addEventListener("drop", function(e){
+            if (!square.children[0]){
+                square.append(pieceBeingMoved)
+                square.className = "chessSquare"
+                pieceBeingMoved.style.cursor = "grab"
+                console.log("no take")
+            } else if (square.children[0].classList.value === "blackPiece"){
                 square.removeChild(square.children[0])
+                square.append(pieceBeingMoved)
+                square.className = "chessSquare"
+                pieceBeingMoved.style.cursor = "grab"
+                console.log("take")
             }
-            square.append(pieceBeingMoved)
-            square.className = "chessSquare"
-            pieceBeingMoved.style.cursor = "grab"
         })
     })
 }
@@ -236,12 +238,17 @@ function moveBlackPieces(blackPieces, chessSquareArray){
             square.className = "chessSquare"
         })
         square.addEventListener("drop", function(){
-            if (square.children[0]){
+            if (square.children[0] && square.children[0].className === "whitePiece"){
                 square.removeChild(square.children[0])
+                square.append(pieceBeingMoved)
+                square.className = "chessSquare"
+                pieceBeingMoved.style.cursor = "grab"
             }
-            square.append(pieceBeingMoved)
-            square.className = "chessSquare"
-            pieceBeingMoved.style.cursor = "grab"
+            if (!square.children[0]){
+                square.append(pieceBeingMoved)
+                square.className = "chessSquare"
+                pieceBeingMoved.style.cursor = "grab"
+            }
         })
     })
 }
