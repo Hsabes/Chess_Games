@@ -156,7 +156,6 @@ function resetPieces(whitePieces, blackPieces, chessSquareArray){
     const reset = document.getElementById("reset")
     const begin = document.getElementById("begin")
     reset.addEventListener("click", function(){
-        begin.disabled = false
         blackPieces.forEach((piece, i) => {
             setTimeout(function(){
                 piece.remove()
@@ -170,6 +169,7 @@ function resetPieces(whitePieces, blackPieces, chessSquareArray){
             })
         }, 800)
         setTimeout(function(){
+            begin.disabled = false
             begin.click()
         }, 1600)
     })
